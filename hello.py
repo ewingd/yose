@@ -28,4 +28,8 @@ def prime_factors():
 
 
 def get_prime_factors(number):
-    return [2] * (number / 2)
+    count = 1
+    while number != 2:
+        count += 1
+        number = number / 2
+    return [2] * count 

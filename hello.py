@@ -1,12 +1,13 @@
 import os
 from flask import Flask
 from flask import Response
+from flask import render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Hello Yose'
+    return render_template('hello.html')
 
 @app.route('/ping')
 def ping():

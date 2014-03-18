@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask import Response
 
 app = Flask(__name__)
 
@@ -9,4 +10,4 @@ def hello():
 
 @app.route('/ping')
 def ping():
-    return '{ "alive" : true }'
+    return Response('{ "alive" : true }', mimetype='application/json')

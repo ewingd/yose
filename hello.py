@@ -12,3 +12,7 @@ def hello():
 @app.route('/ping')
 def ping():
     return Response('{ "alive" : true }', mimetype='application/json')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')

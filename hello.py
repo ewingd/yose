@@ -19,7 +19,7 @@ def ping():
 def contact():
     return render_template('contact.html')
 
-@app.route('/primefactors')
+@app.route('/primeFactors')
 def prime_factors():
     number = int(request.args.get('number'))
     factors = get_prime_factors(number)

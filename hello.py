@@ -21,9 +21,14 @@ def contact():
 
 @app.route('/primeFactors')
 def prime_factors():
-    number = int(request.args.get('number'))
-    factors = get_prime_factors(number)
-    json = '{"number" : %s, "decomposition" : %s}' % (str(number), factors)
+    number = request.args.get('number')
+    try:
+        number = int(number)
+        factors = get_prime_factors(number)
+        json = '{"number" : %s, "decomposition" : %s}' % (str(number), factors)
+    except ValueError:
+        json = '{"number" : "%s", "error" : "not a number"}' % (str(number)) 
+
     return Response(json, mimetype='application/json')
 
 

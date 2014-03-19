@@ -24,6 +24,16 @@ def contact():
 @app.route('/primeFactors')
 def prime_factors():
     numbers = request.args.getlist('number')
+
+    result = process_prime_factors(numbers)
+
+    # don't nest the results if only one
+    if len(result) == 1:
+        result = result.pop()
+
+    return Response(json.dumps(result), mimetype='application/json')
+
+def process_prime_factors(numbers):
     result = []
     for number in numbers:
         try:
@@ -36,13 +46,7 @@ def prime_factors():
         except ValueError:
             output = {"number" : number, "error" : "not a number"}
         result.append(output)
-
-    # don't nest the results if only one
-    if len(result) == 1:
-        result = output
-
-    return Response(json.dumps(result), mimetype='application/json')
-
+    return result
 
 def get_prime_factors(number):
     factors = []

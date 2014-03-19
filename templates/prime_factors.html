@@ -5,6 +5,13 @@
       Enter a number to get a list of the prime factors.
     </div>
     Number: <input type='text' id='number' name='number' /> 
-    <button type='submit' id='go' value='Go!' />
+    <button type='submit' id='go'>Go!</button>
   </form>
+  <div id='result'>
+    {% for row in result %}
+      {% if row.number %}
+        {{ row.number }} = {{ row.decomposition|join(' x ') }}
+      {% endif %}
+    {% endfor %}
+  </div>
 </div>

@@ -20,9 +20,13 @@ def ping():
 def contact():
     return render_template('contact.html')
 
-@app.route('/primeFactors/ui')
+@app.route('/primeFactors/ui', methods=['GET', 'POST'])
 def prime_factors_ui():
-    return render_template('prime_factors.html')
+    result = []
+    if request.method == 'POST':
+        number = request.form.get('number')
+        result = process_prime_factors([number])
+    return render_template('prime_factors.html', result=result)
 
 @app.route('/primeFactors')
 def prime_factors():

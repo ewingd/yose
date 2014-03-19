@@ -4,6 +4,8 @@ from flask import Response
 from flask import render_template
 from flask import request
 
+import json
+
 app = Flask(__name__)
 app.debug = True
 
@@ -21,24 +23,31 @@ def contact():
 
 @app.route('/primeFactors')
 def prime_factors():
-    number = request.args.get('number')
-    try:
-        number = int(number)
-        if number > 1000000:
-            json = '{"number" : %s, "error" : "too big number (>1e6)"}' % (str(number))
-        else:
-            factors = get_prime_factors(number)
-            json = '{"number" : %s, "decomposition" : %s}' % (str(number), factors)
-    except ValueError:
-        json = '{"number" : "%s", "error" : "not a number"}' % (str(number)) 
+    numbers = request.args.getlist('number')
+    result = []
+    for number in numbers:
+        try:
+            number = int(number)
+            if number > 1000000:
+                output = {"number" : number, "error" : "too big number (>1e6)"}
+            else:
+                factors = get_prime_factors(number)
+                output = {"number" : number, "decomposition" : factors}
+        except ValueError:
+            output = {"number" : number, "error" : "not a number"}
+        result.append(output)
 
-    return Response(json, mimetype='application/json')
+    # don't nest the results if only one
+    if len(result) == 1:
+        result = output
+
+    return Response(json.dumps(result), mimetype='application/json')
 
 
 def get_prime_factors(number):
     factors = []
     current_number = 2
-    
+
     while number != 1:
         if number % current_number == 0:
             factors.append(current_number)

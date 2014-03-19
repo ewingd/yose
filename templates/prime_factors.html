@@ -9,7 +9,10 @@
   </form>
   <div id='result'>
     {% for row in result %}
-      {% if row.number %}
+      {% if row.error %}
+        {{ row.error }}
+      {% endif %}
+      {% if row.decomposition %}
         {{ row.number }} = {{ row.decomposition|join(' x ') }}
       {% endif %}
     {% endfor %}

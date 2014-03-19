@@ -24,8 +24,11 @@ def prime_factors():
     number = request.args.get('number')
     try:
         number = int(number)
-        factors = get_prime_factors(number)
-        json = '{"number" : %s, "decomposition" : %s}' % (str(number), factors)
+        if number > 1000000:
+            json = '{"number" : %s, "error" : "too big number (>1e6)"}' % (str(number))
+        else:
+            factors = get_prime_factors(number)
+            json = '{"number" : %s, "decomposition" : %s}' % (str(number), factors)
     except ValueError:
         json = '{"number" : "%s", "error" : "not a number"}' % (str(number)) 
 

@@ -7,7 +7,6 @@ from flask import request
 import json
 
 app = Flask(__name__)
-app.debug = True
 
 @app.route('/')
 def hello():
@@ -20,6 +19,10 @@ def ping():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/primeFactors/ui')
+def prime_factors_ui():
+    return render_template('prime_factors.html')
 
 @app.route('/primeFactors')
 def prime_factors():

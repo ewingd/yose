@@ -33,8 +33,13 @@ def prime_factors():
 
 
 def get_prime_factors(number):
-    count = 1
-    while number != 2:
-        count += 1
-        number = number / 2
-    return [2] * count 
+    factors = []
+    current_number = 2
+    
+    while number != 1:
+        if number % current_number == 0:
+            factors.append(current_number)
+            number = number / current_number
+        else:
+            current_number += 1
+    return factors

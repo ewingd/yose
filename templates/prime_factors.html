@@ -10,7 +10,7 @@
   <div id='result'>
     {% for row in result %}
       {% if row.error %}
-        {% if row.error == 'not a number' %}{{ row.number }} is {% endif %}{{ row.error }}
+        {% if row.error[:5] == 'not a' %}{{ row.number }} is {% endif %}{{ row.error }}
       {% endif %}
       {% if row.decomposition %}
         {{ row.number }} = {{ row.decomposition|join(' x ') }}

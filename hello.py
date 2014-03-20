@@ -47,6 +47,8 @@ def process_prime_factors(numbers):
             number = int(number)
             if number > 1000000:
                 output = {"number" : number, "error" : "too big number (>1e6)"}
+            elif number < 2:
+                output = {"number" : number, "error" : "not an integer > 1"} 
             else:
                 factors = get_prime_factors(number)
                 output = {"number" : number, "decomposition" : factors}

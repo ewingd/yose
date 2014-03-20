@@ -2,19 +2,26 @@
   <form method='post'>
     <span id='title'>Prime Factors</span><br/>
     <div id='invitation'>
-      Enter a number to get a list of the prime factors.
+      Enter a number or numbers to get a list of the prime factors,<br/>
+      comma separated for multiple.
     </div>
     Number: <input type='text' id='number' name='number' /> 
     <button type='submit' id='go'>Go!</button>
   </form>
   <div id='result'>
+    <ol style='list-style-type: none' id='results'>
     {% for row in result %}
       {% if row.error %}
-        {% if row.error[:5] == 'not a' %}{{ row.number }} is {% endif %}{{ row.error }}
+        <li>
+          {% if row.error[:5] == 'not a' %}{{ row.number }} is {% endif %}{{ row.error }}
+        </li>
       {% endif %}
       {% if row.decomposition %}
-        {{ row.number }} = {{ row.decomposition|join(' x ') }}
+        <li>
+          {{ row.number }} = {{ row.decomposition|join(' x ') }}
+        </li>
       {% endif %}
     {% endfor %}
+    </ol>
   </div>
 </div>

@@ -7,6 +7,7 @@ from flask import request
 import json
 
 app = Flask(__name__)
+app.debug = True
 
 @app.route('/')
 def hello():
@@ -25,7 +26,9 @@ def prime_factors_ui():
     result = []
     if request.method == 'POST':
         number = request.form.get('number')
-        result = process_prime_factors([number])
+        number = map(str, number.split(','))
+        number = map(str.strip, number)
+        result = process_prime_factors(number)
     return render_template('prime_factors.html', result=result)
 
 @app.route('/primeFactors')

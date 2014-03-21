@@ -8,14 +8,32 @@
     width: 15px;
     height: 15px;
   }
+
+  .lost {
+    background-color: red;
+  }
 </style>
+<script>
+data = [];
+function load(grid) {
+  data = grid;
+}
+
+function clickCell(row, col) {
+  cell = document.getElementById('cell-' + row + 'x' + col); 
+  if (data[row - 1][col - 1] == 'bomb') {
+    cell.className = 'lost';
+  }
+}
+</script>
 <div id='title'>Minesweeper</div>
 <div id='grid'>
   <table>
     {% for row in range(1,9) %}
       <tr>
       {% for col in range(1,9) %}
-        <td id='cell-{{ row }}x{{ col }}'>
+        <td id='cell-{{ row }}x{{ col }}' onClick='clickCell({{ row }}, {{ col }});'>
+        </td>
       {% endfor %}
       </tr>
     {% endfor %}

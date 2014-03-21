@@ -7,10 +7,15 @@
     border: 1px solid black;
     width: 15px;
     height: 15px;
+    background-color: grey;
   }
 
   .lost {
     background-color: red;
+  }
+
+  .safe {
+    background-color: white;
   }
 </style>
 <script>
@@ -21,7 +26,50 @@ function clickCell(row, col) {
   cell = document.getElementById('cell-' + row + 'x' + col); 
   if (document.grid[row - 1][col - 1] == 'bomb') {
     cell.className = 'lost';
+  } else {
+    cell.className = 'safe';
+    cell.innerHTML = countNeighbors(row - 1, col - 1)
   }
+}
+
+function countNeighbors(row, col) {
+  count = 0;
+  if (bombAt(row-1, col-1)) {
+    count += 1;
+  }
+  if (bombAt(row-1, col)) {
+    count += 1;
+  }
+  if (bombAt(row-1,col+1)) {
+    count += 1;
+  }
+  if (bombAt(row,col-1)) {
+    count += 1;
+  }
+  if (bombAt(row,col+1)) {
+    count += 1;
+  }
+  if (bombAt(row+1,col-1)) {
+    count += 1;
+  }
+  if (bombAt(row+1,col)) {
+    count += 1;
+  }
+  if (bombAt(row+1,col+1)) {
+    count += 1;
+  }
+
+  return count;
+}
+
+function bombAt(row, col) {
+  try {
+    if (document.grid[row][col] == 'bomb') {
+      return true;
+    }
+  } catch (TypeError) {
+  }
+  return false;
 }
 </script>
 <div id='title'>Minesweeper</div>

@@ -17,14 +17,32 @@
   .safe {
     background-color: white;
   }
+
+  .suspect {
+    background-color: blue;
+  }
 </style>
 <script>
 function load() {
 }
 
+suspect = false;
+
+function toggleSuspectMode(box) {
+  suspect = box.checked;
+}
+
 function clickCell(row, col) {
   cell = document.getElementById('cell-' + row + 'x' + col);
   if (cell == null) {
+    return;
+  }
+  if (suspect) {
+    if (cell.className == 'suspect') {
+      cell.className = '';
+    } else {
+      cell.className = 'suspect';
+    }
     return;
   }
   if (cell.className == '') {
@@ -108,6 +126,7 @@ function randomizeGrid() {
 randomizeGrid();
 </script>
 <div id='title'>Minesweeper</div>
+<input type='checkbox' id='suspect_mode' onClick='toggleSuspectMode(this);'/> Flag Suspects
 <div id='grid'>
   <table>
     {% for row in range(1,9) %}

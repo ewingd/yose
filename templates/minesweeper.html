@@ -28,7 +28,10 @@ function clickCell(row, col) {
     cell.className = 'lost';
   } else {
     cell.className = 'safe';
-    cell.innerHTML = countNeighbors(row - 1, col - 1)
+    count = countNeighbors(row - 1, col - 1)
+    if (count != 0) {
+      cell.innerHTML = count;
+    }
   }
 }
 

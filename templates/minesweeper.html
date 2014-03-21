@@ -24,13 +24,30 @@ function load() {
 
 function clickCell(row, col) {
   cell = document.getElementById('cell-' + row + 'x' + col); 
-  if (document.grid[row - 1][col - 1] == 'bomb') {
-    cell.className = 'lost';
-  } else {
-    cell.className = 'safe';
-    count = countNeighbors(row - 1, col - 1)
-    if (count != 0) {
-      cell.innerHTML = count;
+  if (cell == null) {
+    return;
+  }
+  if (cell.className == '') {
+    try {
+      if (document.grid[row - 1][col - 1] == 'bomb') {
+        cell.className = 'lost';
+      } else {
+        cell.className = 'safe';
+        count = countNeighbors(row - 1, col - 1)
+        if (count != 0) {
+          cell.innerHTML = count;
+        } else {
+          clickCell(row - 1, col - 1);
+          clickCell(row - 1, col);
+          clickCell(row - 1, col + 1);
+          clickCell(row, col - 1);
+          clickCell(row, col + 1);
+          clickCell(row + 1, col - 1);
+          clickCell(row + 1, col);
+          clickCell(row + 1, col + 1);
+        }
+      }
+    } catch (TypeError) {
     }
   }
 }

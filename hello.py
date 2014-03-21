@@ -49,6 +49,58 @@ def prime_factors():
 def minesweeper():
     return render_template('minesweeper.html')
 
+@app.route('/fire/geek')
+def fire_api():
+    width = request.args.get('width')
+    board = request.args.get('map')
+    board = parse_board(str(board), int(width))
+    moves = calculate_moves(board)
+    result = {'map' :  board, 'moves' : moves}
+    return Response(json.dumps(result), mimetype='application/json')
+
+def parse_board(input_board, width):
+    input_board = list(input_board)
+    output_board = []
+    while input_board:
+        output_row = ''
+        for _ in range(0, width):
+            output_row = output_row + input_board.pop(0)
+        output_board.append(output_row)
+    return output_board
+
+def calculate_moves(board):
+    p_row, p_col = find_char('P', board)
+    w_row, w_col = find_char('W', board)
+    f_row, f_col = find_char('F', board)
+
+    moves = calculate_segment((p_row, p_col), (w_row, w_col))
+    addl_moves = calculate_segment((w_row, w_col), (f_row, f_col))
+    for move in addl_moves:
+        moves.append(move)
+    return moves
+
+def calculate_segment(start, end):
+    moves = []
+    cur_y, cur_x = start    
+    while (cur_y, cur_x) != end:
+        if cur_y < end[0]:
+            moves.append({'dx': 0, 'dy' : 1})
+            cur_y += 1
+        if cur_y > end[0]:
+            moves.append({'dx': 0, 'dy' : -1})
+            cur_y -= 1
+        if cur_x < end[1]:
+            moves.append({'dx': 1, 'dy' : 0})
+            cur_x += 1
+        if cur_x > end[1]:
+            moves.append({'dx': -1, 'dy' : 0})
+            cur_x -= 1
+    return moves
+def find_char(value, board):
+    for key, row in enumerate(board):
+        if value in row:
+            return key, row.index(value)
+
 def process_prime_factors(numbers):
     result = []
     for number in numbers:

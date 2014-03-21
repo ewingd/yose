@@ -45,6 +45,10 @@ def prime_factors():
 
     return Response(json.dumps(result), mimetype='application/json')
 
+@app.route('/minesweeper')
+def minesweeper():
+    return render_template('minesweeper.html')
+
 def process_prime_factors(numbers):
     result = []
     for number in numbers:

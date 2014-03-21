@@ -1,0 +1,23 @@
+<style>
+  table {
+    border-collapse: collapse;
+  }
+
+  td {
+    border: 1px solid black;
+    width: 15px;
+    height: 15px;
+  }
+</style>
+<div id='title'>Minesweeper</div>
+<div id='grid'>
+  <table>
+    {% for row in range(1,9) %}
+      <tr>
+      {% for col in range(1,9) %}
+        <td id='cell-{{ row }}x{{ col }}'>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>

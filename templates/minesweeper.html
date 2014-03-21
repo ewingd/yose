@@ -23,7 +23,7 @@ function load() {
 }
 
 function clickCell(row, col) {
-  cell = document.getElementById('cell-' + row + 'x' + col); 
+  cell = document.getElementById('cell-' + row + 'x' + col);
   if (cell == null) {
     return;
   }
@@ -91,6 +91,21 @@ function bombAt(row, col) {
   }
   return false;
 }
+
+function randomizeGrid() {
+  document.grid = [];
+  options = ['empty', 'empty', 'empty', 'empty', 'bomb'];
+  for (row = 0; row < 8; row++) {
+    new_row = []
+    for (col = 0; col < 8; col++) {
+      var rand = Math.floor(Math.random() * options.length); 
+      new_row.push(options[rand]);
+    }
+    document.grid.push(new_row);
+  }
+}
+
+randomizeGrid();
 </script>
 <div id='title'>Minesweeper</div>
 <div id='grid'>

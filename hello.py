@@ -69,33 +69,52 @@ def parse_board(input_board, width):
     return output_board
 
 def calculate_moves(board):
-    p_row, p_col = find_char('P', board)
-    w_row, w_col = find_char('W', board)
-    f_row, f_col = find_char('F', board)
+    plane = find_char('P', board)
+    water = find_char('W', board)
+    fire = find_char('F', board)
 
-    moves = calculate_segment((p_row, p_col), (w_row, w_col))
-    addl_moves = calculate_segment((w_row, w_col), (f_row, f_col))
+    moves = calculate_segment(plane, water, avoid=fire)
+    addl_moves = calculate_segment(water, fire)
     for move in addl_moves:
         moves.append(move)
     return moves
 
-def calculate_segment(start, end):
+def calculate_segment(start, end, avoid=False):
     moves = []
-    cur_y, cur_x = start    
+    visited = []
+    visited.append(start)
+    visited.append(avoid)
+    cur_y, cur_x = start
     while (cur_y, cur_x) != end:
-        if cur_y < end[0]:
+        if cur_y < end[0] and (cur_y + 1, cur_x) not in visited:
             moves.append({'dx': 0, 'dy' : 1})
             cur_y += 1
-        if cur_y > end[0]:
+        elif cur_y > end[0] and (cur_y - 1, cur_x) not in visited:
             moves.append({'dx': 0, 'dy' : -1})
             cur_y -= 1
-        if cur_x < end[1]:
+        elif cur_x < end[1] and (cur_y, cur_x + 1) not in visited:
             moves.append({'dx': 1, 'dy' : 0})
             cur_x += 1
-        if cur_x > end[1]:
+        elif cur_x > end[1] and (cur_y, cur_x - 1) not in visited:
             moves.append({'dx': -1, 'dy' : 0})
             cur_x -= 1
+        else:
+            # just pick a move without caring about the direction
+            # the moves in the correct direction aren't possible
+            if (cur_y + 1, cur_x) not in visited:
+                moves.append({'dx': 0, 'dy': 1})
+                cur_y += 1
+            elif (cur_y - 1, cur_x) not in visited:
+                moves.append({'dx': 0, 'dy' : -1})
+                cur_y -= 1
+            elif (cur_y, cur_x + 1) not in visited:
+                moves.append({'dx': 1, 'dy' : 0})
+                cur_x += 1
+            elif (cur_y, cur_x - 1) not in visited:
+                moves.append({'dx': -1, 'dy' : 0})
+                cur_x -= 1
     return moves
+
 def find_char(value, board):
     for key, row in enumerate(board):
         if value in row:

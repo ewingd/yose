@@ -74,16 +74,18 @@ def calculate_moves(board):
     fire = find_char('F', board)
 
     moves = calculate_segment(plane, water, avoid=fire)
-    addl_moves = calculate_segment(water, fire)
-    for move in addl_moves:
-        moves.append(move)
+    if fire:
+        addl_moves = calculate_segment(water, fire)
+        for move in addl_moves:
+            moves.append(move)
     return moves
 
-def calculate_segment(start, end, avoid=False):
+def calculate_segment(start, end, avoid=None):
     moves = []
     visited = []
     visited.append(start)
-    visited.append(avoid)
+    if avoid:
+        visited.append(avoid)
     cur_y, cur_x = start
     while (cur_y, cur_x) != end:
         if cur_y < end[0] and (cur_y + 1, cur_x) not in visited:
@@ -119,6 +121,7 @@ def find_char(value, board):
     for key, row in enumerate(board):
         if value in row:
             return key, row.index(value)
+    return None
 
 def process_prime_factors(numbers):
     result = []

@@ -3,6 +3,7 @@ from flask import Flask
 from flask import Response
 from flask import render_template
 from flask import request
+from flask import send_from_directory
 
 import json
 
@@ -156,3 +157,7 @@ def get_prime_factors(number):
         else:
             current_number += 1
     return factors
+
+@app.route('/eote/<path:filename>')
+def send_foo(filename):
+    return send_from_directory('eote/', filename)
